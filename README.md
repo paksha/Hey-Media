@@ -1,2 +1,1 @@
-# audio-project
-CS 489 Computational Audio Project
+# CS 489 Computational Audio Project
