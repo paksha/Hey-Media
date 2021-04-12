@@ -2,11 +2,14 @@
   "name": "Hey Media",
   "version": "1.0.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "tabs", "storage", "contextMenus"],
+  "permissions": ["activeTab", "tabs", "storage"],
   "action": {
     "default_popup": "index.html"
   },
-  "options_ui": {
-    "page": "options.html"
-  }
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/watch*", "*://*.netflix.com/watch*"],
+      "js": ["video.js"]
+    }
+  ]
 }

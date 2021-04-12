@@ -7,12 +7,69 @@ import SpeechRecognition, {
 
 import { getAudioPermissions } from "./Util";
 
+const sendMessage = (action: string) => {
+  chrome.tabs.query(
+    { active: true, currentWindow: true },
+    function (activeTabs) {
+      if (activeTabs[0].id !== undefined) {
+        chrome.tabs.sendMessage(activeTabs[0].id, { action: action });
+      }
+    }
+  );
+  window.close();
+};
+
 const App: React.FunctionComponent = () => {
-  const { transcript } = useSpeechRecognition();
+  const commands = [
+    {
+      command: ["play"],
+      callback: () => sendMessage("play"),
+      isFuzzyMatch: true,
+    },
+    {
+      command: ["pause"],
+      callback: () => sendMessage("pause"),
+      isFuzzyMatch: true,
+    },
+    {
+      command: ["restart"],
+      callback: () => sendMessage("restart"),
+    },
+    {
+      command: ["volume up"],
+      callback: () => sendMessage("volume_up"),
+    },
+    {
+      command: ["volume down"],
+      callback: () => sendMessage("volume_down"),
+    },
+    {
+      command: ["full screen"],
+      callback: () => sendMessage("fullscreen"),
+      isFuzzyMatch: true,
+    },
+    {
+      command: ["exit full screen"],
+      callback: () => sendMessage("exit_fullscreen"),
+      isFuzzyMatch: true,
+    },
+    {
+      command: ["forward"],
+      callback: () => sendMessage("forward"),
+      isFuzzyMatch: true,
+    },
+    {
+      command: ["backward"],
+      callback: () => sendMessage("backward"),
+      isFuzzyMatch: true,
+    },
+  ];
+
+  const { transcript } = useSpeechRecognition({ commands });
   const [audioPermission] = useState(getAudioPermissions());
 
   useEffect(() => {
-    SpeechRecognition.startListening({ continuous: true });
+    SpeechRecognition.startListening();
   }, []);
 
   return (
@@ -27,15 +84,14 @@ const App: React.FunctionComponent = () => {
             cover={true}
           />
           <Text>Listening for command...</Text>
-          <Text>{transcript}</Text>
+          <Text style={{ color: "#757575", fontWeight: 600}}>{transcript}</Text>
         </>
       ) : (
         <Text>Microphone access not granted.</Text>
       )}
       {!SpeechRecognition.browserSupportsSpeechRecognition() && (
         <Text>
-          Browser not supported. Please use the latest version of Chrome or
-          Edge.
+          Browser not supported. Please use the latest version of Chrome.
         </Text>
       )}
     </>
