@@ -16,10 +16,11 @@ const sendMessage = (action: string) => {
       }
     }
   );
-  window.close();
 };
 
 const App: React.FunctionComponent = () => {
+  const [wakewordDetected, setWakewordDetected] = useState(false);
+
   const commands = [
     {
       command: ["play"],
@@ -69,8 +70,13 @@ const App: React.FunctionComponent = () => {
   const [audioPermission] = useState(getAudioPermissions());
 
   useEffect(() => {
-    SpeechRecognition.startListening();
-  }, []);
+    if (wakewordDetected) {
+      SpeechRecognition.startListening({ continuous: true });
+      setTimeout(() => {
+        window.close();
+      }, 3000);
+    }
+  }, [wakewordDetected]);
 
   return (
     <>
@@ -84,7 +90,9 @@ const App: React.FunctionComponent = () => {
             cover={true}
           />
           <Text>Listening for command...</Text>
-          <Text style={{ color: "#757575", fontWeight: 600}}>{transcript}</Text>
+          <Text style={{ color: "#757575", fontWeight: 600 }}>
+            {transcript}
+          </Text>
         </>
       ) : (
         <Text>Microphone access not granted.</Text>
