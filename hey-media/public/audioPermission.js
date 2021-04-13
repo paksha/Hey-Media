@@ -5,4 +5,4 @@ setTimeout(() => {
             url: 'index.html'
         });
     });
-}, 100);
+}, 1000);

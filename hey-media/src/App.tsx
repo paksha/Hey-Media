@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Siriwave from "react-siriwave";
 import SpeechRecognition, {
@@ -6,6 +6,15 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 
 import { getAudioPermissions } from "./Util";
+import config from "./wakeword/common/config";
+import MicAudioProcessor from "./wakeword/common/micAudioProcessor";
+import InferenceEngine from "./wakeword/common/inferenceEngine";
+import OfflineAudioProcessor from "./wakeword/common/offlineAudioProcessor";
+import SpeechResModel from "./wakeword/common/speechResModel";
+
+let micAudioProcessor = new MicAudioProcessor(config);
+let model = new SpeechResModel("RES8", config);
+let inferenceEngine = new InferenceEngine(config);
 
 const sendMessage = (action: string) => {
   chrome.tabs.query(
@@ -66,16 +75,47 @@ const App: React.FunctionComponent = () => {
     },
   ];
 
+  const interval = useRef<any>(null);
   const { transcript } = useSpeechRecognition({ commands });
   const [audioPermission] = useState(getAudioPermissions());
 
+  const listenForWakeword = () => {
+    let offlineProcessor = new OfflineAudioProcessor(
+      config,
+      micAudioProcessor.getData()
+    );
+    offlineProcessor.getMFCC().done((mfccData: any) => {
+      inferenceEngine.infer(mfccData, model);
+      if (inferenceEngine.sequencePresent()) {
+        console.log("Sequence detected");
+        setWakewordDetected(true);
+      }
+    });
+  };
+
   useEffect(() => {
+    micAudioProcessor
+      .getMicPermission()
+      .done(() => {
+        interval.current = setInterval(
+          listenForWakeword,
+          config.predictionFrequency * 1000
+        );
+      })
+      .fail(function () {
+        console.log("Mic permission not granted");
+      });
+
     if (wakewordDetected) {
       SpeechRecognition.startListening({ continuous: true });
       setTimeout(() => {
         window.close();
       }, 3000);
     }
+    return () => {
+      clearInterval(interval.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wakewordDetected]);
 
   return (
