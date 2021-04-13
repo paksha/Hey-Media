@@ -118,24 +118,29 @@ const App: React.FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wakewordDetected]);
 
+  if (!audioPermission) {
+    return <Text>Microphone access not granted.</Text>;
+  }
+
   return (
     <>
-      <Header>Hey Media</Header>
-      {audioPermission ? (
-        <>
+      {wakewordDetected ? (
+        <Body>
           <Siriwave
             color={"#3D5AFE"}
             speed={0.15}
             amplitude={0.7}
             cover={true}
           />
-          <Text>Listening for command...</Text>
+          <Text>Say a command...</Text>
           <Text style={{ color: "#757575", fontWeight: 600 }}>
             {transcript}
           </Text>
-        </>
+        </Body>
       ) : (
-        <Text>Microphone access not granted.</Text>
+        <Body>
+          <Text>Listening for wakeword...</Text>
+        </Body>
       )}
       {!SpeechRecognition.browserSupportsSpeechRecognition() && (
         <Text>
@@ -156,9 +161,18 @@ const Header = styled.div`
   background: #f2f3f4;
 `;
 
+const Body = styled.div`
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+`;
+
 const Text = styled.div`
   font-weight: 400;
   font-size: 12px;
-  padding-bottom: 16px;
+  padding: 16px 0;
   text-align: center;
 `;

@@ -3,18 +3,7 @@ import util from "./util";
 // in-browser related configs
 // units are all in seconds unless specified otherwise
 var config = {
-  commands: [
-    "hey",
-    "fire",
-    "fox",
-    "unknown3",
-    "unknown4",
-    "unknown5",
-    "unknown6",
-    "unknown7",
-    "unknown8",
-    "unknown9",
-  ],
+  commands: ["hey", "media", "unknown"],
   predictionFrequency: 0.062, // 62 ms
   windowSize: 0.5, // 500 ms
   sampleRate: 16000,
@@ -27,7 +16,7 @@ var micAudioProcessorConfig = {
 config["micAudioProcessorConfig"] = micAudioProcessorConfig;
 
 var featureExtractionConfig = {
-  melBands: 40, // n_mels (only used for Meyda)
+  melBands: 40,
   hopSize: config.sampleRate * 0.0125, // hop by 12.5 ms
 };
 
@@ -44,8 +33,8 @@ var inferenceEngineConfig = {
   inference_window_ms: 2000,
   smoothing_window_ms: 50,
   tolerance_window_ms: 500,
-  inference_weights: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  inference_sequence: [0, 1, 2],
+  inference_weights: [5, 12, 0.5],
+  inference_sequence: [0, 1],
 };
 
 config["inferenceEngineConfig"] = inferenceEngineConfig;
@@ -53,7 +42,6 @@ config["inferenceEngineConfig"] = inferenceEngineConfig;
 let input_width =
   (config.sampleRate * config.windowSize) / featureExtractionConfig.hopSize + 1;
 let input_height = featureExtractionConfig.melBands;
-console.log(input_width, input_height);
 
 let modelConfig = {
   weight_name: "hey_media",

@@ -80,7 +80,6 @@ class OfflineAudioProcessor {
       sampleRate: this.sampleRate,
       melBands: this.melBands,
     });
-    console.log(this.meyda, this.melBands);
   }
 
   getMFCC() {

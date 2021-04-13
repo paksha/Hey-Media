@@ -1,5 +1,4 @@
 import * as tf from "@tensorflow/tfjs";
-import { clipByValue } from "@tensorflow/tfjs";
 
 import util from "./util";
 import weights from "./weights";
@@ -264,8 +263,9 @@ class SpeechResModel {
     }
     let input_shape = this.config["input_shape"].slice();
     input_shape.unshift(-1);
-    let output = this.model.predict(x.reshape(input_shape));
-    return output.dataSync();
+    let output = this.model.predict(x.reshape(input_shape)).dataSync();
+    console.log(output)
+    return output;
   }
 }
 export default SpeechResModel;
