@@ -1,0 +1,13 @@
+{
+  "model": "res8",
+  "workspace": "workspaces/hey_media",
+  "load_weights": false,
+  "load_last": false,
+  "dev_per_epoch": true,
+  "dataset_paths": [
+    "data/hey_media/positive",
+    "data/hey_media/stitched",
+    "data/hey_media/hey_ff"
+  ],
+  "eval": false
+}

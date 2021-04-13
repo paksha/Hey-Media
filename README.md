@@ -1,5 +1,7 @@
 # CS 489 Computational Audio Project
 
+A Chrome extension prototype that uses a convolutional neural network trained using [Howl](https://github.com/castorini/howl) to detect a wakeword phrase and control media playback.
+
 #### Development Guide
 
 1. Make sure [yarn](https://yarnpkg.com/) and [NodeJS](https://nodejs.org/en/) 14+ are installed locally

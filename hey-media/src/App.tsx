@@ -25,6 +25,7 @@ const sendMessage = (action: string) => {
       }
     }
   );
+  window.close();
 };
 
 const App: React.FunctionComponent = () => {
@@ -110,7 +111,7 @@ const App: React.FunctionComponent = () => {
       SpeechRecognition.startListening({ continuous: true });
       setTimeout(() => {
         window.close();
-      }, 3000);
+      }, 5000);
     }
     return () => {
       clearInterval(interval.current);
