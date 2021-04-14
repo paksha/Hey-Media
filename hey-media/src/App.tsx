@@ -109,9 +109,6 @@ const App: React.FunctionComponent = () => {
 
     if (wakewordDetected) {
       SpeechRecognition.startListening({ continuous: true });
-      setTimeout(() => {
-        window.close();
-      }, 5000);
     }
     return () => {
       clearInterval(interval.current);
