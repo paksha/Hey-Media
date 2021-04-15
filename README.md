@@ -2,6 +2,8 @@
 
 A Chrome extension prototype that uses a convolutional neural network trained using [Howl](https://github.com/castorini/howl) to detect a wake word phrase and control media playback.
 
+Our write-up for this work can be found in this [Medium post](https://edwinzhng.medium.com/hey-media-a-voice-controlled-chrome-extension-for-media-playback-a089cb2dd971).
+
 #### Overview
 
 The `model/` directory contains the pretrained model and settings used for wake word detection.
