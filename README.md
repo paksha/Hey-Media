@@ -1,6 +1,12 @@
 # CS 489 Computational Audio Project
 
-A Chrome extension prototype that uses a convolutional neural network trained using [Howl](https://github.com/castorini/howl) to detect a wakeword phrase and control media playback.
+A Chrome extension prototype that uses a convolutional neural network trained using [Howl](https://github.com/castorini/howl) to detect a wake word phrase and control media playback.
+
+#### Overview
+
+The `model/` directory contains the pretrained model and settings used for wake word detection.
+
+The `hey-media/` folder contains a React-based Chrome extension that runs our wake word model using TensorFlow.js and listens for user commands using the Web Speech API built into Chrome. Most of the wake word inference code under `src/wakeword` was taken from [howl-deploy](https://github.com/castorini/howl-deploy).
 
 #### Development Guide
 
