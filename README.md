@@ -1,4 +1,4 @@
-# Hey Media -- CS 489 Computational Audio Project
+# Hey Media &mdash; CS 489 Computational Audio Project
 
 A Chrome extension prototype that uses a convolutional neural network trained using [Howl](https://github.com/castorini/howl) to detect a wake word phrase and control media playback.
 
